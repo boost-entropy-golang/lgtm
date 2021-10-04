@@ -101,12 +101,12 @@ func (g *Github) GetTeams(c context.Context, user *model.User) ([]*model.Team, e
 func (g *Github) GetMembers(c context.Context, user *model.User, org string) ([]*model.Member, error) {
 	client := setupClient(g.API, user.Token)
 	opt := &github.TeamListTeamMembersOptions{
-		ListOptions: github.ListOptions{PerPage: 10},
+		ListOptions: github.ListOptions{PerPage: 100},
 	}
 
 	var members []*model.Member
 	for {
-		teammates, resp, err := client.Teams.ListTeamMembersBySlug(c, org, "maintainers", &github.TeamListTeamMembersOptions{})
+		teammates, resp, err := client.Teams.ListTeamMembersBySlug(c, org, "maintainers", opt)
 		if err != nil {
 			return nil, fmt.Errorf("Error fetching team members. %s", err)
 		}
