@@ -3,9 +3,6 @@
 github.com/BurntSushi/toml
 # github.com/davecgh/go-spew v1.1.1
 github.com/davecgh/go-spew/spew
-# github.com/dgrijalva/jwt-go v3.2.0+incompatible
-## explicit
-github.com/dgrijalva/jwt-go
 # github.com/elazarl/go-bindata-assetfs v1.0.1
 ## explicit
 github.com/elazarl/go-bindata-assetfs
@@ -35,6 +32,9 @@ github.com/go-playground/validator/v10
 # github.com/go-sql-driver/mysql v1.6.0
 ## explicit
 github.com/go-sql-driver/mysql
+# github.com/golang-jwt/jwt/v4 v4.1.0
+## explicit
+github.com/golang-jwt/jwt/v4
 # github.com/golang/protobuf v1.5.2
 ## explicit
 github.com/golang/protobuf/proto
