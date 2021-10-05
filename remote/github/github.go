@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-gitea/lgtm/model"
 	"github.com/go-gitea/lgtm/shared/httputil"
-	"github.com/google/go-github/v33/github"
+	"github.com/google/go-github/v39/github"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
@@ -148,9 +148,9 @@ func (g *Github) GetPerm(c context.Context, user *model.User, owner, name string
 		return nil, fmt.Errorf("Error fetching repository. %s", err)
 	}
 	m := &model.Perm{}
-	m.Admin = (*repo.Permissions)["admin"]
-	m.Push = (*repo.Permissions)["push"]
-	m.Pull = (*repo.Permissions)["pull"]
+	m.Admin = repo.Permissions["admin"]
+	m.Push = repo.Permissions["push"]
+	m.Pull = repo.Permissions["pull"]
 	return m, nil
 }
 
@@ -165,7 +165,7 @@ func (g *Github) GetRepos(c context.Context, u *model.User) ([]*model.Repo, erro
 	repos := []*model.Repo{}
 	for _, repo := range all {
 		// only list repositories that I can admin
-		if repo.Permissions == nil || (*repo.Permissions)["admin"] == false {
+		if repo.Permissions == nil || !repo.Permissions["admin"] {
 			continue
 		}
 		repos = append(repos, &model.Repo{
