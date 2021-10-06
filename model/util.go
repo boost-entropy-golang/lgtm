@@ -19,7 +19,10 @@ func Rand() string {
 	maxrb := byte(256 - (256 % len(chars)))
 	i := 0
 	for {
-		io.ReadFull(rand.Reader, r)
+		_, err := io.ReadFull(rand.Reader, r)
+		if err != nil {
+			return ""
+		}
 		for _, c := range r {
 			if c >= maxrb {
 				// Skip this number to avoid modulo bias.

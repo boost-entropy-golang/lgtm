@@ -103,7 +103,7 @@ func LoginToken(c *gin.Context) {
 	token := token.New(token.UserToken, user.Login)
 	tokenstr, err := token.SignExpires(user.Secret, exp)
 	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.AbortWithError(http.StatusInternalServerError, err) // nolint: errcheck
 		return
 	}
 	c.IndentedJSON(http.StatusOK, &tokenPayload{

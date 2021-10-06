@@ -9,15 +9,11 @@ import (
 	"net/http"
 	"net/url"
 
+	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
 )
 
 const (
-	pathLogin  = "%slogin?access_token=%s"
-	pathUser   = "%sapi/user"
-	pathRepos  = "%sapi/user/repos"
-	pathRepo   = "%sapi/repos/%s"
-	pathConf   = "%sapi/repos/%s/maintainers"
 	pathBranch = "%srepos/%s/%s/branches/%s/protection"
 
 	// protected branch
@@ -39,7 +35,7 @@ func NewClient(uri string) *Client {
 // authenticates all outbound requests with the given token.
 func NewClientToken(uri, token string) *Client {
 	config := new(oauth2.Config)
-	auther := config.Client(oauth2.NoContext, &oauth2.Token{AccessToken: token})
+	auther := config.Client(context.TODO(), &oauth2.Token{AccessToken: token})
 	return &Client{auther, uri}
 }
 
@@ -79,11 +75,6 @@ func (c *Client) get(rawurl string, out interface{}) error {
 	return c.do(rawurl, "GET", nil, out)
 }
 
-// helper function for making an http POST request.
-func (c *Client) post(rawurl string, in, out interface{}) error {
-	return c.do(rawurl, "POST", in, out)
-}
-
 // helper function for making an http PUT request.
 func (c *Client) put(rawurl string, in, out interface{}) error {
 	return c.do(rawurl, "PUT", in, out)
@@ -92,11 +83,6 @@ func (c *Client) put(rawurl string, in, out interface{}) error {
 // helper function for making an http PATCH request.
 func (c *Client) patch(rawurl string, in, out interface{}) error {
 	return c.do(rawurl, "PATCH", in, out)
-}
-
-// helper function for making an http DELETE request.
-func (c *Client) delete(rawurl string) error {
-	return c.do(rawurl, "DELETE", nil, nil)
 }
 
 // helper function to make an http request

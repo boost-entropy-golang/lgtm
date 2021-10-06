@@ -50,7 +50,7 @@ func (g *Github) GetUser(c context.Context, res http.ResponseWriter, req *http.R
 	}
 
 	// exchanges the oauth2 code for an access token
-	token, err := config.Exchange(oauth2.NoContext, code)
+	token, err := config.Exchange(context.TODO(), code)
 	if err != nil {
 		return nil, fmt.Errorf("Error exchanging token. %s", err)
 	}
@@ -226,7 +226,10 @@ func (g *Github) SetHook(c context.Context, user *model.User, repo *model.Repo, 
 
 	old, err := GetHook(c, client, repo.Owner, repo.Name, link)
 	if err == nil && old != nil {
-		client.Repositories.DeleteHook(c, repo.Owner, repo.Name, *old.ID)
+		_, err = client.Repositories.DeleteHook(c, repo.Owner, repo.Name, *old.ID)
+		if err != nil {
+			return err
+		}
 	}
 
 	_, err = CreateHook(c, client, repo.Owner, repo.Name, link)

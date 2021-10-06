@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-gitea/lgtm/model"
 	"github.com/go-gitea/lgtm/remote"
-	"github.com/go-gitea/lgtm/remote/mock"
+	mocks "github.com/go-gitea/lgtm/remote/mock"
 
 	"github.com/franela/goblin"
 	"github.com/gin-gonic/gin"
@@ -44,7 +44,8 @@ func TestHelper(t *testing.T) {
 				fakeRepo.Name,
 			)
 
-			Set(c, key, fakePerm)
+			err := Set(c, key, fakePerm)
+			g.Assert(err).IsNil()
 			r.On("GetPerm", c, fakeUser, fakeRepo.Owner, fakeRepo.Name).Return(nil, errFake).Once()
 			p, err := GetPerm(c, fakeUser, fakeRepo.Owner, fakeRepo.Name)
 			g.Assert(p).Equal(fakePerm)
@@ -71,7 +72,8 @@ func TestHelper(t *testing.T) {
 				fakeUser.Login,
 			)
 
-			Set(c, key, fakeRepos)
+			err := Set(c, key, fakeRepos)
+			g.Assert(err).IsNil()
 			r.On("GetRepos", c, fakeUser).Return(nil, errFake).Once()
 			p, err := GetRepos(c, fakeUser)
 			g.Assert(p).Equal(fakeRepos)
@@ -97,7 +99,8 @@ func TestHelper(t *testing.T) {
 				fakeUser.Login,
 			)
 
-			Set(c, key, fakeTeams)
+			err := Set(c, key, fakeTeams)
+			g.Assert(err).IsNil()
 			r.On("GetTeams", c, fakeUser).Return(nil, errFake).Once()
 			p, err := GetTeams(c, fakeUser)
 			g.Assert(p).Equal(fakeTeams)
@@ -121,7 +124,8 @@ func TestHelper(t *testing.T) {
 		g.It("Should get members", func() {
 			key := "members:drone"
 
-			Set(c, key, fakeMembers)
+			err := Set(c, key, fakeMembers)
+			g.Assert(err).IsNil()
 			r.On("GetMembers", c, fakeUser, "drone").Return(nil, errFake).Once()
 			p, err := GetMembers(c, fakeUser, "drone")
 			g.Assert(p).Equal(fakeMembers)

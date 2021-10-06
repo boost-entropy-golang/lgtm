@@ -19,7 +19,8 @@ func TestCache(t *testing.T) {
 		})
 
 		g.It("Should set and get an item", func() {
-			Set(c, "foo", "bar")
+			err := Set(c, "foo", "bar")
+			g.Assert(err).IsNil()
 			v, e := Get(c, "foo")
 			g.Assert(v).Equal("bar")
 			g.Assert(e == nil).IsTrue()

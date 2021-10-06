@@ -54,8 +54,8 @@ func toList(items []string) (string, []interface{}) {
 		size = 990
 		items = items[:990]
 	}
-	var qs = make([]string, size, size)
-	var in = make([]interface{}, size, size)
+	var qs = make([]string, size)
+	var in = make([]interface{}, size)
 	for i, item := range items {
 		qs[i] = "?"
 		in[i] = item

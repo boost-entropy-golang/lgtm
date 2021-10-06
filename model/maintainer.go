@@ -146,11 +146,11 @@ func parseln(s string) string {
 
 // regular expression determines if a line in the maintainers
 // file only has the single GitHub username and no other metadata.
-var reLogin = regexp.MustCompile("^\\w[\\w-]+$")
+var reLogin = regexp.MustCompile(`^\w[\w-]+$`)
 
 // regular expression determines if a line in the maintainers
 // file has the username and metadata.
-var reLoginMeta = regexp.MustCompile("(.+) <(.+)> \\(@(.+)\\)")
+var reLoginMeta = regexp.MustCompile(`(.+) <(.+)> \(@(.+)\)`)
 
 // regular expression determines if a line in the maintainers
 // file has the username and email.

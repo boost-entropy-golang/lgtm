@@ -18,7 +18,8 @@ func Test_userstore(t *testing.T) {
 		// before each test be sure to purge the package
 		// table data from the database.
 		g.BeforeEach(func() {
-			db.Exec("DELETE FROM users")
+			_, err := db.Exec("DELETE FROM users")
+			g.Assert(err).IsNil()
 		})
 
 		g.It("Should Update a User", func() {
@@ -56,7 +57,8 @@ func Test_userstore(t *testing.T) {
 				Avatar: "b9015b0857e16ac4d94a0ffd9a0b79c8",
 			}
 
-			s.CreateUser(&user)
+			err := s.CreateUser(&user)
+			g.Assert(err).IsNil()
 			getuser, err := s.GetUser(user.ID)
 			g.Assert(err == nil).IsTrue()
 			g.Assert(user.ID).Equal(getuser.ID)
@@ -73,7 +75,8 @@ func Test_userstore(t *testing.T) {
 				Email: "foo@bar.com",
 				Token: "e42080dddf012c718e476da161d21ad5",
 			}
-			s.CreateUser(&user)
+			err := s.CreateUser(&user)
+			g.Assert(err).IsNil()
 			getuser, err := s.GetUserLogin(user.Login)
 			g.Assert(err == nil).IsTrue()
 			g.Assert(user.ID).Equal(getuser.ID)
@@ -103,7 +106,8 @@ func Test_userstore(t *testing.T) {
 				Email: "foo@bar.com",
 				Token: "e42080dddf012c718e476da161d21ad5",
 			}
-			s.CreateUser(&user)
+			err := s.CreateUser(&user)
+			g.Assert(err).IsNil()
 			_, err1 := s.GetUser(user.ID)
 			err2 := s.DeleteUser(&user)
 			_, err3 := s.GetUser(user.ID)

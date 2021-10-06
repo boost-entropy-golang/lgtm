@@ -40,17 +40,6 @@ WHERE user_login = ?
 LIMIT 1
 `
 
-const userListQuery = `
-SELECT *
-FROM users
-ORDER BY user_login ASC
-`
-
-const userCountQuery = `
-SELECT count(1)
-FROM users
-`
-
 const userDeleteStmt = `
 DELETE FROM users
 WHERE user_id = ?

@@ -26,7 +26,10 @@ func GetRepos(c context.Context, user *model.User) ([]*model.Repo, error) {
 	if err != nil {
 		return nil, err
 	}
-	FromContext(c).Set(key, repos)
+	err = FromContext(c).Set(key, repos)
+	if err != nil {
+		return nil, err
+	}
 	return repos, nil
 }
 
@@ -47,7 +50,12 @@ func GetTeams(c context.Context, user *model.User) ([]*model.Team, error) {
 	if err != nil {
 		return nil, err
 	}
-	FromContext(c).Set(key, teams)
+
+	err = FromContext(c).Set(key, teams)
+	if err != nil {
+		return nil, err
+	}
+
 	return teams, nil
 }
 
@@ -70,7 +78,10 @@ func GetPerm(c context.Context, user *model.User, owner, name string) (*model.Pe
 	if err != nil {
 		return nil, err
 	}
-	FromContext(c).Set(key, perm)
+	err = FromContext(c).Set(key, perm)
+	if err != nil {
+		return nil, err
+	}
 	return perm, nil
 }
 
@@ -90,6 +101,10 @@ func GetMembers(c context.Context, user *model.User, team string) ([]*model.Memb
 	if err != nil {
 		return nil, err
 	}
-	FromContext(c).Set(key, members)
+	err = FromContext(c).Set(key, members)
+	if err != nil {
+		return nil, err
+	}
+
 	return members, nil
 }

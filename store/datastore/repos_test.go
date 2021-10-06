@@ -18,8 +18,10 @@ func Test_repostore(t *testing.T) {
 		// before each test be sure to purge the package
 		// table data from the database.
 		g.BeforeEach(func() {
-			db.Exec("DELETE FROM repos")
-			db.Exec("DELETE FROM users")
+			_, err := db.Exec("DELETE FROM repos")
+			g.Assert(err).IsNil()
+			_, err = db.Exec("DELETE FROM users")
+			g.Assert(err).IsNil()
 		})
 
 		g.It("Should Set a Repo", func() {
@@ -59,7 +61,8 @@ func Test_repostore(t *testing.T) {
 				Link:    "https://github.com/octocat/hello-world",
 				Private: true,
 			}
-			s.CreateRepo(&repo)
+			err := s.CreateRepo(&repo)
+			g.Assert(err).IsNil()
 			getrepo, err := s.GetRepo(repo.ID)
 			g.Assert(err == nil).IsTrue()
 			g.Assert(repo.ID).Equal(getrepo.ID)
@@ -77,7 +80,8 @@ func Test_repostore(t *testing.T) {
 				Owner:  "bradrydzewski",
 				Name:   "drone",
 			}
-			s.CreateRepo(&repo)
+			err := s.CreateRepo(&repo)
+			g.Assert(err).IsNil()
 			getrepo, err := s.GetRepoSlug(repo.Slug)
 			g.Assert(err == nil).IsTrue()
 			g.Assert(repo.ID).Equal(getrepo.ID)
@@ -105,9 +109,12 @@ func Test_repostore(t *testing.T) {
 				Name:   "hello-world",
 				Slug:   "octocat/hello-world",
 			}
-			s.CreateRepo(repo1)
-			s.CreateRepo(repo2)
-			s.CreateRepo(repo3)
+			err := s.CreateRepo(repo1)
+			g.Assert(err).IsNil()
+			err = s.CreateRepo(repo2)
+			g.Assert(err).IsNil()
+			err = s.CreateRepo(repo3)
+			g.Assert(err).IsNil()
 
 			repos, err := s.GetRepoMulti("octocat/fork-knife", "octocat/hello-world")
 			g.Assert(err == nil).IsTrue()
@@ -123,7 +130,8 @@ func Test_repostore(t *testing.T) {
 				Owner:  "bradrydzewski",
 				Name:   "drone",
 			}
-			s.CreateRepo(&repo)
+			err := s.CreateRepo(&repo)
+			g.Assert(err).IsNil()
 			_, err1 := s.GetRepo(repo.ID)
 			err2 := s.DeleteRepo(&repo)
 			_, err3 := s.GetRepo(repo.ID)

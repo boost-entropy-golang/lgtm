@@ -12,7 +12,7 @@ import (
 func setupClient(rawurl, accessToken string) *github.Client {
 	token := oauth2.Token{AccessToken: accessToken}
 	source := oauth2.StaticTokenSource(&token)
-	client := oauth2.NewClient(oauth2.NoContext, source)
+	client := oauth2.NewClient(context.TODO(), source)
 	github := github.NewClient(client)
 	github.BaseURL, _ = url.Parse(rawurl)
 	return github

@@ -47,10 +47,10 @@ func ParseConfigStr(data string) (*Config, error) {
 	if len(c.Team) == 0 {
 		c.Team = *team
 	}
-	if c.SelfApprovalOff == false {
+	if !c.SelfApprovalOff {
 		c.SelfApprovalOff = *selfApprovalOff
 	}
-	if c.IgnoreMaintainersFile == false {
+	if !c.IgnoreMaintainersFile {
 		c.IgnoreMaintainersFile = *ignoreMaintainersFile
 	}
 
